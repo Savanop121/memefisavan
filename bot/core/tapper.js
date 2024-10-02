@@ -427,7 +427,7 @@ class Tapper {
             game_config = new_boss;
             balance = game_config?.coinsAmount;
             boss_current_health = game_config?.currentBoss?.currentHealth;
-            await sleep(_.random(15, 30));
+            await sleep(_.random(2, 6));
           } else {
             continue;
           }
@@ -441,8 +441,8 @@ class Tapper {
           settings.AUTO_SPIN
         ) {
           const spin_sleep = _.add(
-            sleep.generateDelays(10)[_.random(0, 9)],
-            _.random(12, 30)
+            sleep.generateDelays(1)[_.random(1, 3)],
+            _.random(1, 3)
           );
           logger.info(
             `<ye>[${this.bot_name}]</ye> | ${this.session_name} | Sleeping for ${spin_sleep} seconds before spinning slot machine`
@@ -460,7 +460,7 @@ class Tapper {
               game_config = new_boss;
               balance = game_config?.coinsAmount;
               boss_current_health = game_config?.currentBoss?.currentHealth;
-              await sleep(_.random(14, 23));
+              await sleep(_.random(3, 7));
             } else {
               break;
             }
