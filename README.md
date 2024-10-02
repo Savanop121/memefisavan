@@ -1,4 +1,4 @@
-> [<img src="https://img.shields.io/badge/Telegram-%40Me-orange">](https://t.me/roddyfred)
+> [<img src="https://img.shields.io/badge/Telegram-%40Me-orange">]
 
 # Use Node.Js 18 or 20
 
@@ -24,7 +24,7 @@
 
 ### [How to add query id](https://github.com/Freddywhest/RockyRabbitBot/blob/main/AddQueryId.md)
 
-## [Settings](https://github.com/FreddyWhest/MemeFiBot-New/blob/main/.env-example)
+## [Settings]
 
 | Settings                        | Description                                                                                                     |
 | ------------------------------- | --------------------------------------------------------------------------------------------------------------- |
