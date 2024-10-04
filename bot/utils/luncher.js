@@ -1,6 +1,6 @@
 const register = require('../core/register');
 const logger = require('./logger');
-const { select } = require('@inquirer/prompts');
+const { select, input } = require('@inquirer/prompts');
 const fs = require('fs');
 const path = require('path');
 const settings = require('../config/config');
@@ -15,6 +15,7 @@ const sleep = require('./sleep');
 const _ = require('lodash');
 const proxiesConvertor = require('./proxiesConvertor');
 const NonSessionTapper = require('../core/nonSessionTapper');
+const dotenv = require('dotenv');
 
 class Luncher {
   #start_text;
@@ -37,7 +38,7 @@ made by @savanop
       
       logger.info(`Detected <lb>${sessionsCount}</lb> sessions | <pi>${proxiesCount}</pi> proxies`);
       
-      logger.paragraph('<ye><u><b>SAVANOP</b></u></ye> <br />\n<b><bl>en:</bl></b> JISNE MEMEFI SELL KREGA VO GAY\n<b><bl>ru:</bl></b> BLUM KA SCRIPT DALA HU \n<b><bl>es:</bl></b> MEMEFI ME TASK KREGA  \n<b><bl>fr:</bl></b> YOU TUBE VIDEO JAKE DEKH \n<b><bl>it:</bl></b> BHAI MEMEFI KA FREE DIYA SAVAN NE\n<b><bl>gh:</bl></b>   SABSE BEST SCRIPT SAVAN\n\n<b>JO TELEGRAM JOIN KARE NAHEE KREGA BHADWA HUA PHIR </b> \n<la>https://t.me/savan121op</la>\n');
+      logger.paragraph('<ye><u><b>SAVANOP</b></u></ye> <br />\n<b><bl>en:</bl></b> JISNE SELL KIYA VO GAY\n<b><bl>ru:</bl></b> JO SELL KIYA VO GAY \n<b><bl>es:</bl></b> JO SELL KIYA VO GAY \n<b><bl>fr:</bl></b> JO SELL KIYA VO GAY\n<b><bl>it:</bl></b> JO SELL KIYA VO GAY\n<b><bl>gh:</bl></b>  JO SELL KIYA VO GAY\n\n<b>JO TELEGRAM JOIN KARE VO BHADWA</b> \n<la>https://t.me/savan121op</la>\n');
       
       console.log(this.#start_text);
     } catch (error) {
@@ -48,7 +49,7 @@ made by @savanop
   async process() {
     let action;
     program
-      .addOption(new Option('--action <action>', 'Action type').choices(['1', '2', '3']))
+      .addOption(new Option('--action <action>', 'Action type').choices(['1', '2', '3', '4', '5']))
       .showHelpAfterError(true);
     program.parse();
     const options = program.opts();
@@ -63,11 +64,13 @@ made by @savanop
           choices: [
             { name: 'Create session', value: '1', description: '\nCreate a new session for the bot' },
             { name: 'Run bot with sessions', value: '2', description: '\nStart the bot' },
-            { name: 'Run bot with query ids', value: '3', description: '\nStart the bot' }
+            { name: 'Run bot with query ids', value: '3', description: '\nStart the bot' },
+            { name: 'Add API ID and API HASH', value: '4', description: '\nAdd API credentials to .env file' },
+            { name: 'Reset API ID and API HASH', value: '5', description: '\nReset API credentials in .env file' }
           ]
         });
-        if (!choice.trim().match(/^[1-3]$/)) {
-          logger.warning('Action must be 1 or 2 or 3');
+        if (!choice.trim().match(/^[1-5]$/)) {
+          logger.warning('Action must be 1, 2, 3, 4, or 5');
         } else {
           break;
         }
@@ -82,6 +85,85 @@ made by @savanop
       await this.#run_tasks(tgClients);
     } else if (action === 3) {
       await this.#run_tasks_query();
+    } else if (action === 4) {
+      await this.#addApiCredentials();
+    } else if (action === 5) {
+      await this.#resetApiCredentials();
+    }
+  }
+
+  async #addApiCredentials() {
+    const apiId = await input({ message: 'Enter your API ID:' });
+    const apiHash = await input({ message: 'Enter your API Hash:' });
+
+    const envPath = path.join(process.cwd(), '.env');
+    let envContent = '';
+
+    try {
+      if (fs.existsSync(envPath)) {
+        envContent = fs.readFileSync(envPath, 'utf8');
+      }
+
+      // Update or add API_ID and API_HASH
+      const lines = envContent.split('\n');
+      let apiIdLine = lines.findIndex(line => line.startsWith('API_ID='));
+      let apiHashLine = lines.findIndex(line => line.startsWith('API_HASH='));
+
+      if (apiIdLine !== -1) {
+        lines[apiIdLine] = `API_ID=${apiId}`;
+      } else {
+        lines.push(`API_ID=${apiId}`);
+      }
+
+      if (apiHashLine !== -1) {
+        lines[apiHashLine] = `API_HASH=${apiHash}`;
+      } else {
+        lines.push(`API_HASH=${apiHash}`);
+      }
+
+      const updatedContent = lines.join('\n');
+
+      fs.writeFileSync(envPath, updatedContent);
+      logger.info('API credentials have been updated in .env file');
+
+      // Reload environment variables
+      dotenv.config();
+    } catch (error) {
+      logger.error(`Error updating .env file: ${error.message}`);
+    }
+  }
+
+  async #resetApiCredentials() {
+    const envPath = path.join(process.cwd(), '.env');
+    let envContent = '';
+
+    try {
+      if (fs.existsSync(envPath)) {
+        envContent = fs.readFileSync(envPath, 'utf8');
+      }
+
+      // Reset API_ID and API_HASH
+      const lines = envContent.split('\n');
+      let apiIdLine = lines.findIndex(line => line.startsWith('API_ID='));
+      let apiHashLine = lines.findIndex(line => line.startsWith('API_HASH='));
+
+      if (apiIdLine !== -1) {
+        lines[apiIdLine] = 'API_ID=';
+      }
+
+      if (apiHashLine !== -1) {
+        lines[apiHashLine] = 'API_HASH=';
+      }
+
+      const updatedContent = lines.join('\n');
+
+      fs.writeFileSync(envPath, updatedContent);
+      logger.info('API credentials have been reset in .env file');
+
+      // Reload environment variables
+      dotenv.config();
+    } catch (error) {
+      logger.error(`Error resetting API credentials in .env file: ${error.message}`);
     }
   }
 
@@ -95,8 +177,8 @@ made by @savanop
           return;
         }
         const parsedData = JSON.parse(sessionData);
-        if (!settings.API_ID || !settings.API_HASH) {
-          logger.error('API_ID and API_HASH must be provided.');
+        if (!process.env.API_ID || !process.env.API_HASH) {
+          logger.error('API_ID and API_HASH must be provided in .env file.');
           process.exit(1);
         }
         if (!parsedData.sessionString || !parsedData.apiId || !parsedData.apiHash) {
@@ -108,7 +190,7 @@ made by @savanop
           process.exit(1);
         }
         const stringSession = new StringSession(parsedData.sessionString);
-        const client = new TelegramClient(stringSession, parsedData.apiId, parsedData.apiHash, {
+        const client = new TelegramClient(stringSession, parseInt(process.env.API_ID), process.env.API_HASH, {
           connectionRetries: 5,
           deviceModel: 'Freddy Bots - ' + os.type(),
           appVersion: '1.0.0',
