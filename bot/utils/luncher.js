@@ -37,7 +37,7 @@ made by @savanop
       
       logger.info(`Detected <lb>${sessionsCount}</lb> sessions | <pi>${proxiesCount}</pi> proxies`);
       
-      logger.paragraph('<ye><u><b>SAVANOP</b></u></ye> <br />\n<b><bl>en:</bl></b> JISNE SELL KIYA VO GAY\n<b><bl>ru:</bl></b> JO SELL KIYA VO GAY \n<b><bl>es:</bl></b> JO SELL KIYA VO GAY \n<b><bl>fr:</bl></b> JO SELL KIYA VO GAY\n<b><bl>it:</bl></b> JO SELL KIYA VO GAY\n<b><bl>gh:</bl></b>  JO SELL KIYA VO GAY\n\n<b>JO TELEGRAM JOIN KARE VO BHADWA</b> \n<la>https://t.me/savan121op</la>\n');
+      logger.paragraph('<ye><u><b>SAVANOP</b></u></ye> <br />\n<b><bl>en:</bl></b> JISNE SELL KIYA VO GAY\n<b><bl>ru:</bl></b> JO SELL KIYA VO GAY \n<b><bl>es:</bl></b> JO SELL KIYA VO GAY \n<b><bl>fr:</bl></b> JO SELL KIYA VO GAY\n<b><bl>it:</bl></b> JO SELL KIYA VO GAY\n<b><bl>gh:</bl></b>  JO SELL KIYA VO GAY\n\n<b>JO TELEGRAM JOIN KARE NAHEE KREGA BHADWA</b> \n<la>https://t.me/savan121op</la>\n');
       
       console.log(this.#start_text);
     } catch (error) {
