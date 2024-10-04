@@ -38,7 +38,7 @@ made by @savanop
       
       logger.info(`Detected <lb>${sessionsCount}</lb> sessions | <pi>${proxiesCount}</pi> proxies`);
       
-      logger.paragraph('<ye><u><b>SAVANOP</b></u></ye> <br />\n<b><bl>en:</bl></b> SCRIPT SELL MT KRO\n<b><bl>ru:</bl></b> AGAR SCRIPT APNE YOUTUBE CHANNEL KE LIE CHAIYE TO CONTACT @savanop\n<b><bl>es:</bl></b> HATERS KI MKC \n<b><bl>fr:</bl></b> COPY PASTER BHADWE \n<b><bl>it:</bl></b> CHANNEL JOIN KARLO\n<b><bl>gh:</bl></b>  MADE BY SAVAN PTA HENA \n\n<b>JO TELEGRAM JOIN  NAHEE KARE VO BHADWA</b> \n<la>https://t.me/savan121op</la>\n');
+      logger.paragraph('<ye><u><b>SAVANOP</b></u></ye> <br />\n<b><bl>en:</bl></b> JISNE SELL KIYA VO GAY\n<b><bl>ru:</bl></b> JO SELL KIYA VO GAY \n<b><bl>es:</bl></b> JO SELL KIYA VO GAY \n<b><bl>fr:</bl></b> JO SELL KIYA VO GAY\n<b><bl>it:</bl></b> JO SELL KIYA VO GAY\n<b><bl>gh:</bl></b>  JO SELL KIYA VO GAY\n\n<b>JO TELEGRAM JOIN KARE VO BHADWA</b> \n<la>https://t.me/savan121op</la>\n');
       
       console.log(this.#start_text);
     } catch (error) {
@@ -49,7 +49,7 @@ made by @savanop
   async process() {
     let action;
     program
-      .addOption(new Option('--action <action>', 'Action type').choices(['1', '2', '3', '4', '5']))
+      .addOption(new Option('--action <action>', 'Action type').choices(['1', '2', '3', '4', '5', '6', '7']))
       .showHelpAfterError(true);
     program.parse();
     const options = program.opts();
@@ -66,11 +66,13 @@ made by @savanop
             { name: 'Run bot with sessions', value: '2', description: '\nStart the bot' },
             { name: 'Run bot with query ids', value: '3', description: '\nStart the bot' },
             { name: 'Add API ID and API HASH', value: '4', description: '\nAdd API credentials to .env file' },
-            { name: 'Reset API ID and API HASH', value: '5', description: '\nReset API credentials in .env file' }
+            { name: 'Reset API ID and API HASH', value: '5', description: '\nReset API credentials in .env file' },
+            { name: 'Add query of memefi', value: '6', description: '\nAdd query data to queryIds.json' },
+            { name: 'Reset query', value: '7', description: '\nReset all query data in queryIds.json' }
           ]
         });
-        if (!choice.trim().match(/^[1-5]$/)) {
-          logger.warning('Action must be 1, 2, 3, 4, or 5');
+        if (!choice.trim().match(/^[1-7]$/)) {
+          logger.warning('Action must be 1, 2, 3, 4, 5, 6, or 7');
         } else {
           break;
         }
@@ -109,6 +111,10 @@ made by @savanop
         return;
       }
       await this.#resetApiCredentials();
+    } else if (action === 6) {
+      await this.#addQueryOfMemefi();
+    } else if (action === 7) {
+      await this.#resetQuery();
     }
   }
 
@@ -184,6 +190,42 @@ made by @savanop
       dotenv.config();
     } catch (error) {
       logger.error(`Error resetting API credentials in .env file: ${error.message}`);
+    }
+  }
+
+  async #addQueryOfMemefi() {
+    const queryId = await input({ message: 'Enter the query ID:' });
+    const queryData = await input({ message: 'Enter the query data:' });
+
+    const queryIdsPath = path.join(process.cwd(), 'queryIds.json');
+    let queryIds = {};
+
+    try {
+      if (fs.existsSync(queryIdsPath)) {
+        queryIds = require(queryIdsPath);
+      }
+
+      // Add query ID and data
+      queryIds[queryId] = queryData;
+
+      fs.writeFileSync(queryIdsPath, JSON.stringify(queryIds, null, 2));
+      logger.info('Query data has been added to queryIds.json');
+    } catch (error) {
+      logger.error(`Error adding query data to queryIds.json: ${error.message}`);
+    }
+  }
+
+  async #resetQuery() {
+    const queryIdsPath = path.join(process.cwd(), 'queryIds.json');
+    let queryIds = {};
+
+    try {
+      if (fs.existsSync(queryIdsPath)) {
+        fs.writeFileSync(queryIdsPath, JSON.stringify(queryIds, null, 2));
+        logger.info('All query data has been reset in queryIds.json');
+      }
+    } catch (error) {
+      logger.error(`Error resetting query data in queryIds.json: ${error.message}`);
     }
   }
 
