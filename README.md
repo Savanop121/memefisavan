@@ -55,7 +55,7 @@
 
 ## Installation
 
-You can download [**Repository**](https://github.com/FreddyWhest/MemeFiBot-New) by cloning it to your system and installing the necessary dependencies:
+You can download [**Repository**](https://github.com/Savanop121/memefisavan.git) by cloning it to your system and installing the necessary dependencies:
 
 ```shell
 ~ >>> git clone https://github.com/FreddyWhest/MemeFiBot-New.git
