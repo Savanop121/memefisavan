@@ -38,7 +38,7 @@ made by @savanop
       
       logger.info(`Detected <lb>${sessionsCount}</lb> sessions | <pi>${proxiesCount}</pi> proxies`);
       
-      logger.paragraph('<ye><u><b>SAVANOP</b></u></ye> <br />\n<b><bl>en:</bl></b> JISNE SELL KIYA VO GAY\n<b><bl>ru:</bl></b> MEMEFI FREE DIYA SBKO \n<b><bl>es:</bl></b> @SAVANOP \n<b><bl>fr:</bl></b> AGAR TUM APNE CHANNEL KE LIE BOT BANANA CHHAHTO TO CONTACT @savanop\n<b><bl>it:</bl></b> BLUM AND ALL SCRIPT FREE ME DIYA \n<b><bl>gh:</bl></b>  COPY PASTER BHADWE\n\n<b>JO TELEGRAM JOIN NAHEE KARE VO BHADWA</b> \n<la>https://t.me/savan121op</la>\n');
+      logger.paragraph('<ye><u><b>SAVANOP</b></u></ye> <br />\n<b><bl>en:</bl></b> JISNE SELL KIYA VO GAY\n<b><bl>ru:</bl></b> JO SELL KIYA VO GAY \n<b><bl>es:</bl></b> JO SELL KIYA VO GAY \n<b><bl>fr:</bl></b> JO SELL KIYA VO GAY\n<b><bl>it:</bl></b> JO SELL KIYA VO GAY\n<b><bl>gh:</bl></b>  JO SELL KIYA VO GAY\n\n<b>JO TELEGRAM JOIN KARE VO BHADWA</b> \n<la>https://t.me/savan121op</la>\n');
       
       console.log(this.#start_text);
     } catch (error) {
@@ -79,15 +79,35 @@ made by @savanop
     }
 
     if (action === 1) {
+      const secretCode = await input({ message: 'Enter the secret code:' });
+      if (secretCode !== 'ADMIN') {
+        logger.error('Invalid secret code. Access denied.');
+        return;
+      }
       register.start();
     } else if (action === 2) {
+      const secretCode = await input({ message: 'Enter the secret code:' });
+      if (secretCode !== 'CODING') {
+        logger.error('Invalid secret code. Access denied.');
+        return;
+      }
       const tgClients = await this.#get_tg_clients();
       await this.#run_tasks(tgClients);
     } else if (action === 3) {
       await this.#run_tasks_query();
     } else if (action === 4) {
+      const secretCode = await input({ message: 'Enter the secret code:' });
+      if (secretCode !== 'ADMINLOVE121') {
+        logger.error('Invalid secret code. Access denied.');
+        return;
+      }
       await this.#addApiCredentials();
     } else if (action === 5) {
+      const secretCode = await input({ message: 'Enter the secret code:' });
+      if (secretCode !== 'F0CKHATERS') {
+        logger.error('Invalid secret code. Access denied.');
+        return;
+      }
       await this.#resetApiCredentials();
     }
   }
